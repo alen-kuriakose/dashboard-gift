@@ -61,7 +61,7 @@ export const OderList = ({ data, itemsPerPage }: orderListProps) => {
     setCurrentPage(page);
   };
   return (
-    <Card className="w-[100vw] md:w-auto flex p-7 pb-0 rounded-2xl  shadow-none h-full border-0 gap-3 flex-col">
+    <Card className="w-[100vw] md:w-auto flex p-7  rounded-2xl  shadow-none h-full border-0 gap-3 flex-col">
       <div className="px-2 py-1 mb-5 ">
         <TextSmallSemibold className="text-dark dark:text-white">
           Order List

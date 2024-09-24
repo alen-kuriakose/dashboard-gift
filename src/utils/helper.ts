@@ -24,7 +24,7 @@ import Contact6 from "@/assets/images/3D03.png";
 
 export const dashboardSidemenuContent = [
   {
-    title: "Default",
+    title: "Dashboard",
     icon: ChartPieSlice,
     url: "/solutions/digitization",
   },

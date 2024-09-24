@@ -63,7 +63,7 @@ export const Navbar = ({ className,breadcrumbs }: NavbaeProps) => {
         <Breadcrumb className="px-2 hidden lg:block">
           <BreadcrumbList>
           {breadcrumbs.map((crumb, index) => (
-          <React.Fragment key={crumb.href}>
+          <React.Fragment key={index}>
             {index > 0 && <BreadcrumbSeparator />}
             <BreadcrumbItem>
               {index === breadcrumbs.length - 1 ? (

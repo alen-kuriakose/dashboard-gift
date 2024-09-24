@@ -4,14 +4,14 @@ import { DashboardSection } from "@/components/sections";
 import { Header4xlSemibold, TextLgRegular } from "@/components/typography";
 import {
   ActiveIndexServicesCard,
-  EnableNotificationPanel
+  EnableNotificationPanel,
 } from "@/states/GlobalState";
 import { usePathname } from "next/navigation";
 import { useRecoilValue } from "recoil";
 import { SideBarLayout } from "./SideBarLayout";
 import { orderHistory } from "@/utils/helper";
 
-export function DashboardLayout() {
+export function EventsLayout() {
   const isNotificationPanelActive = useRecoilValue(EnableNotificationPanel);
   const pathname = usePathname();
   const activeCardIndex = useRecoilValue(ActiveIndexServicesCard);
@@ -38,48 +38,18 @@ export function DashboardLayout() {
     return [...breadcrumbs];
   };
   const breadcrumbs = generateBreadcrumbs();
-
   return (
-    <div className=" grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[212px_1fr] overflow-hidden">
-      <SideBarLayout breadcrumbsArray={breadcrumbs} />
-      <div className="w-full flex">
-        <div className="flex w-full">
-          <div className="w-full">
-            <Navbar
-              className="hidden md:flex flex-grow h-fit"
-              breadcrumbs={breadcrumbs}
-            />
-            {(() => {
-              switch (activeCardIndex) {
-                case "Default":
-                  return <DashboardSection />;
-                case "eCommerce​":
-                  return (
-                    <div className=" w-full">
-                      <OderList data={orderHistory} itemsPerPage={10}/>
-                    </div>
-                  );
-                default:
-                  return (
-                    <div className="w-full h-full flex items-center justify-center text-dark dark:text-white">
-                      <div className="text-center">
-                        <Header4xlSemibold className="animate-pulse">
-                          Coming Soon
-                        </Header4xlSemibold>
-                        <div className="flex justify-center items-center mb-8">
-                          <TextLgRegular>
-                            We are working on something exiting
-                          </TextLgRegular>
-                        </div>
-                      </div>
-                    </div>
-                  );
-              }
-            })()}
-          </div>
-          {isNotificationPanelActive && <NotificationPanel />}
+    <div className="flex w-full">
+      <div className="w-full">
+        <Navbar
+          className="hidden md:flex flex-grow h-fit"
+          breadcrumbs={breadcrumbs}
+        />
+        <div className="w-full">
+          <OderList data={orderHistory} itemsPerPage={10} />
         </div>
       </div>
+      {isNotificationPanelActive && <NotificationPanel />}
     </div>
   );
 }

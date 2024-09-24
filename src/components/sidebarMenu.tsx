@@ -1,10 +1,11 @@
 "use client";
 import { ActiveIndexServicesCard } from "@/states/GlobalState";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { SidebarMenuItem } from "./sideBarMenuItem";
 import { TextSmallRegular } from "./typography";
 import { Accordion } from "./ui/accordion";
+import { usePathname, useRouter } from "next/navigation";
 
 type SidebarMenuProps = {
   content: Array<any>;
@@ -13,17 +14,25 @@ type SidebarMenuProps = {
 
 export const SidebarMenu = ({ content, header }: SidebarMenuProps) => {
   const [clicked, setclicked] = useState(false);
-
+  const router = useRouter();
   const [activeCardIndex, setActiveCardIndex] = useRecoilState(
     ActiveIndexServicesCard
   );
+  const pathname=usePathname();
 
   const handleActiveIndex = (index: string) => {
     if (index != activeCardIndex) {
       setclicked(true);
     } else setclicked(!clicked);
+    const pathnamesArray=pathname.split("/").filter((segment)=>segment)
+    const pathRoute =pathnamesArray.length>1?index.toLocaleLowerCase():pathnamesArray[0]+"/"+index.toLocaleLowerCase()
+    index=="Dashboard"?router.push("/dashboard"):router.push(pathRoute);
     setActiveCardIndex(index);
+    console.log(activeCardIndex)
   };
+useEffect(()=>{
+  console.log(activeCardIndex)
+},[])
 
   return (
     <div className="flex flex-col gap-2 w-full">
@@ -41,7 +50,6 @@ export const SidebarMenu = ({ content, header }: SidebarMenuProps) => {
               <SidebarMenuItem
                 contents={item.contents}
                 title={item.title}
-                description={item.description}
                 index={index}
                 isActive={item.title === activeCardIndex}
                 onClick={() => handleActiveIndex(item.title)}

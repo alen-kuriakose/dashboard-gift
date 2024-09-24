@@ -1,13 +1,12 @@
 "use client";
-import { DashboardPageLayout } from "@/layouts";
-import React from "react";
+import { GiftsPageLayout } from "@/layouts";
 import { RecoilRoot } from "recoil";
 
-export default function DashboardPage() {
+export default function EventsPage() {
   return (
     <RecoilRoot>
       <div className="bg-white dark:bg-black font-inter">
-        <DashboardPageLayout />
+        <GiftsPageLayout />
       </div>
     </RecoilRoot>
   );

@@ -1,3 +1,7 @@
+export { GuestPageLayout } from "./GuestPageLayout";
+export { GiftsPageLayout } from "./GiftsPageLayout";
+export { EventsLayout } from "./EventsLayout";
+export { DashboardPageLayout } from "./DashboardPageLayout";
 export { LandingPage } from "./LandingPage";
-export { DashboardLayout } from "./DashboardLayout";
 export { SideBarLayout } from "./SideBarLayout";
+

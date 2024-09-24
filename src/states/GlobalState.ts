@@ -2,7 +2,7 @@ import { atom } from "recoil";
 
 export const ActiveIndexServicesCard = atom({
   key: "activeIndexServicesCard",
-  default: "Default",
+  default: "Dashboard",
 });
 export const ActiveChildIndexServicesCard = atom({
   key: "activeChildIndexServicesCard",
