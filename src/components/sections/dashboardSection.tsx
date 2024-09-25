@@ -6,7 +6,7 @@
  * `PieChartComponent` arranged in a grid layout within a `div` element. The component also includes a
  * `TextSmallSemibold` component for displaying the text "eCommerce".
  */
-import { WidgetChartData } from "@/utils/helper";
+import { stackedBhartDataGiftProjection, WidgetChartData } from "@/utils/helper";
 import {
   AreaChartComponent,
   PieChartComponent,
@@ -16,6 +16,21 @@ import {
   WorldMap,
 } from "../charts";
 import { TextSmallSemibold } from "../typography";
+import { ChartConfig } from "../ui/chart";
+
+
+const chartConfig = {
+  invitations: {
+    label: "Invitations",
+    color: "rgba(168, 197, 218, 1)",
+  },
+  guestCount: {
+    label: "Guest Count",
+    color: "rgba(168, 197, 218, 0.5)",
+  },
+} satisfies ChartConfig;
+
+
 
 export function DashboardSection() {
   return (
@@ -43,7 +58,7 @@ export function DashboardSection() {
           })}
         </div>
         <div className="col-span-12 lg:col-span-6">
-          <StackedBarChart />
+          <StackedBarChart chartData={stackedBhartDataGiftProjection} chartConfig={chartConfig} chartHeader={"Guests Summary"} />
         </div>
         <div className="col-span-12 grid grid-cols-12 gap-7 h-full">
           <div className=" col-span-12 lg:col-span-9 h-full">

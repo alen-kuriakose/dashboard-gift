@@ -10,12 +10,13 @@ import { usePathname } from "next/navigation";
 import { useRecoilValue } from "recoil";
 import { SideBarLayout } from "./SideBarLayout";
 import { orderHistory } from "@/utils/helper";
+import { useEffect, useState } from "react";
 
 export function DashboardPageLayout() {
   const isNotificationPanelActive = useRecoilValue(EnableNotificationPanel);
   const pathname = usePathname();
   const activeCardIndex = useRecoilValue(ActiveIndexServicesCard);
-
+  const [breadcrumbs,setBreadcrumbs]=useState<any>()
   /**
    * The function `generateBreadcrumbs` creates breadcrumb navigation based on the current pathname in
    * a TypeScript React application.
@@ -25,20 +26,15 @@ export function DashboardPageLayout() {
    * `href` set to `/` and the `label` set to `activeCardIndex`.
    */
   const generateBreadcrumbs = () => {
-    const pathSegments = pathname.split("/").filter((segment) => segment);
-    const url = pathSegments[0];
-    const breadcrumbs = pathSegments.map((segment, index) => {
-      const href = "/" + pathSegments.slice(0, index + 1).join("/");
-      return { href, label: segment };
-    });
-    breadcrumbs.splice(1, 0, {
-      href: `/${url}`,
-      label: activeCardIndex,
-    });
-    return [...breadcrumbs];
+    const pathSegments = pathname.split('/').filter(segment => segment !== '');
+    console.log(pathSegments)
+    return pathSegments;
   };
-  const breadcrumbs = generateBreadcrumbs();
 
+  useEffect(()=>{
+    const breadcrumbsArray = generateBreadcrumbs();
+    setBreadcrumbs(breadcrumbsArray)
+  },[])
   return (
     // <div className=" grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[212px_1fr] overflow-hidden">
     // <SideBarLayout breadcrumbsArray={breadcrumbs} />

@@ -14,22 +14,24 @@ import {
 } from "@/utils/helper";
 import { FavSection } from "@/components/favSection";
 type SideBarLayoutProps = {
-  breadcrumbsArray: Array<{href:string,label:string}>;
+  breadcrumbsArray: Array<any>;
 };
 export function SideBarLayout({ breadcrumbsArray }: SideBarLayoutProps) {
   return (
     <div>
       <div className="hidden border-r md:block pt-5 h-full ">
         <div className="flex h-full max-h-screen flex-col gap-4 px-4 lg:px-4">
-          <AvatarComponent avatarImg={avatar} name={"ByeWind"} />
-          <div className="flex-1">
-            <nav className="grid items-start text-sm font-medium gap-4">
-              <SidebarMenu
-                header="Dashboard"
-                content={dashboardSidemenuContent}
-              />
-              <SidebarMenu header="Settings" content={pageSidemenuContent} />
-            </nav>
+          <div className="fixed flex gap-4 flex-col">
+            <AvatarComponent avatarImg={avatar} name={"ByeWind"} />
+            <div className="flex-1">
+              <nav className="grid items-start text-sm font-medium gap-4">
+                <SidebarMenu
+                  header="Dashboard"
+                  content={dashboardSidemenuContent}
+                />
+                <SidebarMenu header="Settings" content={pageSidemenuContent} />
+              </nav>
+            </div>
           </div>
         </div>
       </div>
@@ -76,7 +78,7 @@ export function SideBarLayout({ breadcrumbsArray }: SideBarLayoutProps) {
               </nav>
             </SheetContent>
           </Sheet>
-          <Navbar breadcrumbs={breadcrumbsArray}/>
+          {/* <Navbar breadcrumbs={breadcrumbsArray} /> */}
         </header>
       </div>
     </div>

@@ -19,7 +19,7 @@ export const SidebarMenu = ({ content, header }: SidebarMenuProps) => {
     ActiveIndexServicesCard
   );
   const pathname=usePathname();
-
+  const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
   const handleActiveIndex = (index: string) => {
     if (index != activeCardIndex) {
       setclicked(true);
@@ -28,11 +28,8 @@ export const SidebarMenu = ({ content, header }: SidebarMenuProps) => {
     const pathRoute =pathnamesArray.length>1?index.toLocaleLowerCase():pathnamesArray[0]+"/"+index.toLocaleLowerCase()
     index=="Dashboard"?router.push("/dashboard"):router.push(pathRoute);
     setActiveCardIndex(index);
-    console.log(activeCardIndex)
   };
-useEffect(()=>{
-  console.log(activeCardIndex)
-},[])
+
 
   return (
     <div className="flex flex-col gap-2 w-full">

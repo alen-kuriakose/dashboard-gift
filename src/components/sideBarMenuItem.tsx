@@ -174,27 +174,29 @@ export const SidebarMenuItem = ({
             </div>
           </div>
         )}
-        <AccordionContent>
-          <div className="flex flex-col gap-1 transition-all duration-300">
-            {contents?.map((item, index) => {
-              return (
-                <div
-                  key={index}
-                  className="font-bold relative z-10 ps-[3rem] flex gap-1 transition-all duration-300 py-1"
-                  onClick={() => handleChildClick(item.title)}
-                >
-                  <Link
-                    href={`/${url.toLowerCase()}/${item.title.toLowerCase()}`}
+        {isActive && (
+          <AccordionContent>
+            <div className="flex flex-col gap-1 transition-all duration-300">
+              {contents?.map((item, index) => {
+                return (
+                  <div
+                    key={index}
+                    className="font-bold relative z-10 ps-[3rem] flex gap-1 transition-all duration-300 py-1"
+                    onClick={() => handleChildClick(item.title)}
                   >
-                    <TextSmallRegular className="inline-block font-inter text-primary dark:text-white transition-all duration-300">
-                      {item.title}
-                    </TextSmallRegular>
-                  </Link>
-                </div>
-              );
-            })}
-          </div>
-        </AccordionContent>
+                    <Link
+                      href={`/${url.toLowerCase()}/${item.title.toLowerCase()}`}
+                    >
+                      <TextSmallRegular className="inline-block font-inter text-primary dark:text-white transition-all duration-300">
+                        {item.title}
+                      </TextSmallRegular>
+                    </Link>
+                  </div>
+                );
+              })}
+            </div>
+          </AccordionContent>
+        )}
       </AccordionItem>
     </div>
   );

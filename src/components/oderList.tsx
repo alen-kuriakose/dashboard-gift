@@ -1,10 +1,18 @@
 /* eslint-disable */
 "use client";
-import { orderHistory } from "@/utils/helper";
-import {} from "lucide-react";
+import { cn } from "@/lib/utils";
+import { Copy } from "lucide-react";
 import React, { useState } from "react";
 import { Card, CardContent, CardHeader } from "./ui/card";
 import { Checkbox } from "./ui/checkbox";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "./ui/pagination";
 import { StatusIndicator } from "./ui/statusindicator";
 import {
   Table,
@@ -14,26 +22,31 @@ import {
   TableHeader,
   TableRow,
 } from "./ui/table";
-import { cn } from "@/lib/utils";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationPrevious,
-  PaginationLink,
-  PaginationEllipsis,
-  PaginationNext,
-} from "./ui/pagination";
 
-import add from "@/assets/icons/Add.svg";
-import filter from "@/assets/icons/FunnelSimple.svg";
 import sort from "@/assets/icons/ArrowsDownUp.svg";
-import clipboard from "@/assets/icons/ClipboardText.svg";
+import filter from "@/assets/icons/FunnelSimple.svg";
 
 import calendar from "@/assets/icons/CalendarBlank.svg";
 import Image from "next/image";
 import { Search } from "./search";
-import { TextSmallSemibold } from "./typography";
+import { format } from "date-fns";
+import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "./ui/dialog";
+import { Button } from "./ui/button";
+import { Label } from "./ui/label";
+import { Input } from "./ui/input";
+import { eventUrl } from "@/utils/constants";
+import { PopoverClose } from "@radix-ui/react-popover";
+
 type orderListProps = {
   data: Array<any>;
   itemsPerPage: number;
@@ -60,25 +73,83 @@ export const OderList = ({ data, itemsPerPage }: orderListProps) => {
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
   };
+  function sortEvents(events: any, key: any) {
+    data = events.sort((a: any, b: any) => {
+      console.log(a[key]);
+      const valueA = a[key].toString().toLowerCase();
+      const valueB = b[key].toString().toLowerCase();
+
+      if (valueA < valueB) {
+        return -1;
+      } else if (valueA > valueB) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
+  }
+
+  function searchEvents(events: any, searchString: any) {
+    return events.filter((event: any) => {
+      return Object.values(event).some((value: any) =>
+        value.toString().toLowerCase().includes(searchString.toLowerCase())
+      );
+    });
+  }
+  function popEventById(events: any, id: any) {
+    const index = events.findIndex((event: any) => event.id === id);
+    if (index !== -1) {
+      return events.splice(index, 1)[0]; // Removes the event and returns it
+    }
+    return null; // Return null if no event found with the given id
+  }
+
   return (
-    <Card className="w-[100vw] md:w-auto flex p-7  rounded-2xl  shadow-none h-full border-0 gap-3 flex-col">
-      <div className="px-2 py-1 mb-5 ">
-        <TextSmallSemibold className="text-dark dark:text-white">
-          Order List
-        </TextSmallSemibold>
-      </div>
+    <Card className="w-[100vw] md:w-auto flex  rounded-2xl  shadow-none h-full border-0 gap-3 flex-col">
       <CardHeader className="p-0 bg-[#F7F9FB] dark:bg-[#FFFFFF0D]/5 rounded-lg ">
         <div className="flex justify-between w-full p-2">
           <div className="flex gap-2  w-auto">
             <div className="p-1">
-              <Image src={add} alt="add" className="dark:invert" />
-            </div>
-            <div className="p-1">
               <Image src={filter} alt="filter" className="dark:invert" />
             </div>
-            <div className="p-1">
-              <Image src={sort} alt="sort" className="dark:invert" />
-            </div>
+            <Popover>
+              <PopoverTrigger>
+                <div className="p-1">
+                  <Image src={sort} alt="sort" className="dark:invert" />
+                </div>
+              </PopoverTrigger>
+              <PopoverContent className="space-y-2 w-[160px]">
+                <PopoverClose className="w-full">
+                  <div
+                    className="w-100 p-2 border text-sm text-center rounded-md"
+                    onClick={() => sortEvents(data, "title")}
+                  >
+                    Event
+                  </div>
+                </PopoverClose>
+                {/* <PopoverClose className="w-full">
+                  <div className="w-100 p-2 border text-sm text-center rounded-md" onClick={()=>(sortEvents(data,"event"))}>
+                    Description
+                  </div>
+                </PopoverClose> */}
+                <PopoverClose className="w-full">
+                  <div
+                    className="w-100 p-2 border text-sm text-center rounded-md"
+                    onClick={() => sortEvents(data, "location")}
+                  >
+                    Location
+                  </div>
+                </PopoverClose>
+                <PopoverClose className="w-full">
+                  <div
+                    className="w-100 p-2 border text-sm text-center rounded-md"
+                    onClick={() => sortEvents(data, "event")}
+                  >
+                    Guest Count
+                  </div>
+                </PopoverClose>
+              </PopoverContent>
+            </Popover>
           </div>
           <div>
             <Search keyboardActionReq={false} />
@@ -89,16 +160,14 @@ export const OderList = ({ data, itemsPerPage }: orderListProps) => {
         <Table className="pb-0">
           <TableHeader>
             <TableRow>
-              <TableHead>
-                <Checkbox />
-              </TableHead>
-              <TableHead className="px-3 py-[11px]">Order ID</TableHead>
-              <TableHead className="px-3 py-[11px]">User</TableHead>
-              <TableHead className="px-3 py-[11px]">Project</TableHead>
-              <TableHead className="px-3 py-[11px]">Address</TableHead>
-              <TableHead className="px-3 py-[11px]">Date</TableHead>
-              <TableHead className="px-3 py-[11px]">Status</TableHead>
-              <TableHead className="px-3 py-[11px]"></TableHead>
+              <TableHead className="px-3 py-[11px]">Serial No</TableHead>
+              <TableHead className="px-3 py-[11px]">Event</TableHead>
+              <TableHead className="px-3 py-[11px]">Description</TableHead>
+              <TableHead className="px-3 py-[11px]">Event Date</TableHead>
+              <TableHead className="px-3 py-[11px]">Location</TableHead>
+              <TableHead className="px-3 py-[11px]">Organizer</TableHead>
+              <TableHead></TableHead>
+              <TableHead></TableHead>
             </TableRow>
           </TableHeader>
           <TableBody className="border-b">
@@ -106,60 +175,132 @@ export const OderList = ({ data, itemsPerPage }: orderListProps) => {
               return (
                 <React.Fragment key={index}>
                   <TableRow className={``} onClick={() => handleClick(index)}>
-                    <TableCell>
+                    {/* <TableCell>
                       <Checkbox />
-                    </TableCell>
+                    </TableCell> */}
                     <TableCell>
-                      <div className="">{order.orderId}</div>
-                    </TableCell>
-                    <TableCell className="flex gap-2 items-center">
                       <div className="">
-                        <Image src={order.icon} alt="filter" className="" />
+                        {index + 1 + (currentPage - 1) * itemsPerPage}
                       </div>
-                      {order.user}
                     </TableCell>
-                    <TableCell className="">{order.project}</TableCell>
                     <TableCell className="flex gap-2 items-center">
-                      <div className="">
+                      {order.title}
+                    </TableCell>
+                    <TableCell className="w-[250px]">{order.description}</TableCell>
+                    <TableCell className="flex gap-2 items-center">
+                      {/* <div className="">
                         <Image
                           src={calendar}
                           alt="filter"
                           className="dark:invert"
                         />
-                      </div>
-                      {order.date}
+                      </div> */}
+                      {format(new Date(order.date), "PP")}
                     </TableCell>
                     <TableCell className="">
-                      <div className="flex">
-                        {order.address}
-                        {activeRow == index ? (
-                          <Image
-                            src={calendar}
-                            alt="filter"
-                            className="dark:invert"
-                          />
-                        ) : (
-                          ""
-                        )}
-                      </div>
+                      <div className="flex">{order.location}</div>
                     </TableCell>
                     <TableCell className="">
-                      <StatusIndicator
+                      {/* <StatusIndicator
                         className="text-xs"
                         variant={
                           order.status.toLowerCase().replace(" ", "-") as any
                         }
+                      > */}
+                      {order.organizer}
+                      {/* </StatusIndicator> */}
+                    </TableCell>
+                    {/* </TableCell>
+                    
+                      // className={cn(
+                      //   activeRow == index ? "opacity-100" : "opacity-0"
+                      // )}
+                      className=""
+                    > */}
+                    <Dialog>
+                      <DialogTrigger
+                        asChild
+                        className={cn("",
+                          activeRow == index ? "opacity-100" : "opacity-0"
+                        )}
                       >
-                        {order.status}
-                      </StatusIndicator>
-                    </TableCell>
-                    <TableCell
-                      className={cn(
-                        activeRow == index ? "opacity-100" : "opacity-0"
-                      )}
-                    >
-                      ...
-                    </TableCell>
+                        <TableCell>
+                          <span className="material-symbols-rounded text-lg p-2 rounded-sm hover:bg-dark/10  hover:dark:bg-white/10 cursor-pointer">
+                            share
+                          </span>
+                        </TableCell>
+                      </DialogTrigger>
+                      <DialogContent className="sm:max-w-md bg-white dark:bg-dark">
+                        <DialogHeader>
+                          <DialogTitle>Share link</DialogTitle>
+                          <DialogDescription>
+                            Anyone who has this link will be able to join this
+                            event.
+                          </DialogDescription>
+                        </DialogHeader>
+                        <div className="flex items-center space-x-2">
+                          <div className="grid flex-1 gap-2">
+                            <Label htmlFor="link" className="sr-only">
+                              Link
+                            </Label>
+                            <Input
+                              id="link"
+                              defaultValue={eventUrl + order.id}
+                              readOnly
+                              className="dark:text-white text-dark"
+                            />
+                          </div>
+                          <Button
+                            type="submit"
+                            size="sm"
+                            className="px-3"
+                            onClick={() =>
+                              navigator.clipboard.writeText(eventUrl + order.id)
+                            }
+                          >
+                            <span className="sr-only">Copy</span>
+                            <span className="material-symbols-rounded text-lg text-white dark:text-dark">
+                              content_copy
+                            </span>
+                          </Button>
+                        </div>
+                        <DialogFooter className="sm:justify-start w-100">
+                          <DialogClose
+                            asChild
+                            className="w-100 flex justify-center"
+                          >
+                            <Button type="button" variant="default">
+                              Close
+                            </Button>
+                          </DialogClose>
+                        </DialogFooter>
+                      </DialogContent>
+                    </Dialog>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <TableCell
+                          className={cn(
+                            activeRow == index ? "opacity-100" : "opacity-0"
+                          )}
+                        >
+                          <div className="">
+                            <span className="material-symbols-rounded text-lg p-2 rounded-sm hover:bg-dark/10  hover:dark:bg-white/10 cursor-pointer">
+                              delete
+                            </span>
+                          </div>
+                        </TableCell>
+                      </PopoverTrigger>
+                      <PopoverContent className=" w-[200px] ">
+                        <PopoverClose className="w-full flex gap-2 justify-center">
+                          <Button type="button" variant="outline">
+                            Cancel
+                          </Button>
+                          <Button type="button" variant="default" onClick={()=>(popEventById(data,order.id))}>
+                            Confirm
+                          </Button>
+                        </PopoverClose>
+                      </PopoverContent>
+                    </Popover>
                   </TableRow>
                 </React.Fragment>
               );

@@ -17,7 +17,7 @@ export const WorldMap = () => {
     <Card className="border-0 bg-primary-light dark:bg-white/15 shadow-none flex flex-col gap-0 ">
       <CardHeader className="pb-4">
         <CardTitle>
-          <TextSmallSemibold>Revenue</TextSmallSemibold>
+          <TextSmallSemibold>Gifts Accross Geography</TextSmallSemibold>
         </CardTitle>
       </CardHeader>
       <CardContent>

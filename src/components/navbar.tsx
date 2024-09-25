@@ -6,9 +6,7 @@ import star from "@/assets/icons/Star.svg";
 import sun from "@/assets/icons/Sun.svg";
 
 import { cn } from "@/lib/utils";
-import {
-  EnableNotificationPanel
-} from "@/states/GlobalState";
+import { EnableNotificationPanel } from "@/states/GlobalState";
 import { Theme } from "@/utils/constants";
 import { useTheme } from "next-themes";
 import Image from "next/image";
@@ -28,10 +26,10 @@ import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 
 type NavbaeProps = {
   className?: string;
-  breadcrumbs: Array<{href:string,label:string}>;
+  breadcrumbs: Array<any>;
 };
 
-export const Navbar = ({ className,breadcrumbs }: NavbaeProps) => {
+export const Navbar = ({ className, breadcrumbs }: NavbaeProps) => {
   const [isNotificationActive, setNotificationActive] = useRecoilState(
     EnableNotificationPanel
   );
@@ -46,6 +44,7 @@ export const Navbar = ({ className,breadcrumbs }: NavbaeProps) => {
       setTheme(Theme.dark);
     }
   };
+  const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
   return (
     <nav
       className={cn(
@@ -62,25 +61,30 @@ export const Navbar = ({ className,breadcrumbs }: NavbaeProps) => {
         </div>
         <Breadcrumb className="px-2 hidden lg:block">
           <BreadcrumbList>
-          {breadcrumbs.map((crumb, index) => (
-          <React.Fragment key={index}>
-            {index > 0 && <BreadcrumbSeparator />}
-            <BreadcrumbItem>
-              {index === breadcrumbs.length - 1 ? (
-                <BreadcrumbPage className="font-inter text-sm font-normal text-dark dark:text-white">
-                  {crumb.label.charAt(0).toUpperCase() + crumb.label.slice(1).toLowerCase()}
-                  </BreadcrumbPage>
-              ) : (
-                <BreadcrumbLink
-                  href={crumb.href}
-                  className="font-inter text-sm font-normal text-dark/40 dark:text-white/40"
-                >
-                  {crumb.label.charAt(0).toUpperCase() + crumb.label.slice(1).toLowerCase()}
-                </BreadcrumbLink>
-              )}
-            </BreadcrumbItem>
-          </React.Fragment>
-        ))}
+            {breadcrumbs &&
+              breadcrumbs.map((crumb, index) => {
+                const href = `/${breadcrumbs.slice(0, index + 1).join("/")}`;
+                const isLast = index === breadcrumbs.length - 1;
+                return (
+                  <React.Fragment key={index}>
+                    {index > 0 && <BreadcrumbSeparator />}
+                    <BreadcrumbItem>
+                      {isLast ? (
+                        <BreadcrumbPage className="font-inter text-sm font-normal text-dark dark:text-white">
+                          {capitalize(crumb)}
+                        </BreadcrumbPage>
+                      ) : (
+                        <BreadcrumbLink
+                          href={href}
+                          className="font-inter text-sm font-normal text-dark/40 dark:text-white/40"
+                        >
+                          {capitalize(crumb)}
+                        </BreadcrumbLink>
+                      )}
+                    </BreadcrumbItem>
+                  </React.Fragment>
+                );
+              })}
           </BreadcrumbList>
         </Breadcrumb>
       </div>

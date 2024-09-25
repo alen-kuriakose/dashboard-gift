@@ -19,10 +19,10 @@ import {
 export const description = "A donut chart with text";
 
 const chartData = [
-  { source: "Direct", amount: 300.56, fill: "hsl(240, 60%, 70%)" },
-  { source: "Affiliate", amount: 135.18, fill: "hsl(120, 40%, 80%)" },
-  { source: "Sponsored", amount: 154.02, fill: "hsl(260, 60%, 70%)" },
-  { source: "E-mail", amount: 48.96, fill: "hsl(190, 70%, 80%)" },
+  { source: "Cash", amount: 300.56, fill: "hsl(240, 60%, 70%)" },
+  { source: "Cheque", amount: 135.18, fill: "hsl(120, 40%, 80%)" },
+  { source: "Gifts", amount: 154.02, fill: "hsl(260, 60%, 70%)" },
+  { source: "Other", amount: 48.96, fill: "hsl(190, 70%, 80%)" },
 ];
 
 const chartConfig = {
@@ -63,7 +63,7 @@ export function PieChartComponent() {
   return (
     <Card className="flex flex-col border-0 bg-primary-light dark:bg-white/15 shadow-none gap-4 !h-full ">
       <CardHeader className=" font-inter font-semibold text-sm">
-        <CardTitle>Pie Chart - Donut with Text</CardTitle>
+        <CardTitle>Gifts Analysis</CardTitle>
       </CardHeader>
       <CardContent className="flex-1 pb-0!h-full">
         <ChartContainer config={chartConfig} className="mx-auto  !h-fulll">
