@@ -56,6 +56,7 @@ export function StackedBarChart({
             {Object.entries(chartConfig).map(([key,value],index) => {
               return (
                 <Bar
+                key={index}
                   dataKey={key}
                   stackId="a"
                   fill={`${value.color}`}

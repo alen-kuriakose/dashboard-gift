@@ -2,7 +2,7 @@
 "use client";
 import { cn } from "@/lib/utils";
 import { Copy } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader } from "./ui/card";
 import { Checkbox } from "./ui/checkbox";
 import {
@@ -58,6 +58,17 @@ export const OderList = ({ data, itemsPerPage }: orderListProps) => {
     setActiveRow(index);
     setHoverState(!hover);
   };
+  const [sorted,setSorted]=useState(false)
+  const [orderListData,setOrderListData]=useState<Array<any>>([])
+  useEffect(() => {
+    setOrderListData(data);
+  }, [data]);
+  useEffect(()=>{
+    setOrderListData(data)
+    console.log("data modified")
+    sorted&&setSorted(false)
+  },[sorted])
+  
   const [currentPage, setCurrentPage] = useState(1);
   // Calculate total pages based on the data length
   const totalPages = Math.ceil(data.length / itemsPerPage);
@@ -66,7 +77,7 @@ export const OderList = ({ data, itemsPerPage }: orderListProps) => {
   const getCurrentPageData = () => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-    return data.slice(startIndex, endIndex);
+    return orderListData.slice(startIndex, endIndex);
   };
 
   // Handle page change
@@ -75,7 +86,6 @@ export const OderList = ({ data, itemsPerPage }: orderListProps) => {
   };
   function sortEvents(events: any, key: any) {
     data = events.sort((a: any, b: any) => {
-      console.log(a[key]);
       const valueA = a[key].toString().toLowerCase();
       const valueB = b[key].toString().toLowerCase();
 
@@ -87,14 +97,19 @@ export const OderList = ({ data, itemsPerPage }: orderListProps) => {
         return 0;
       }
     });
+    setSorted(true)
   }
 
   function searchEvents(events: any, searchString: any) {
-    return events.filter((event: any) => {
+    console.log(searchString)
+    let searchResult=events.filter((event: any) => {
       return Object.values(event).some((value: any) =>
         value.toString().toLowerCase().includes(searchString.toLowerCase())
       );
     });
+    setOrderListData(searchResult)
+    setCurrentPage(1);
+    setSorted(true)
   }
   function popEventById(events: any, id: any) {
     const index = events.findIndex((event: any) => event.id === id);
@@ -152,7 +167,7 @@ export const OderList = ({ data, itemsPerPage }: orderListProps) => {
             </Popover>
           </div>
           <div>
-            <Search keyboardActionReq={false} />
+            <Search keyboardActionReq={false} onChangeFn={(event:any)=>(searchEvents(data,event.target.value))}/>
           </div>
         </div>
       </CardHeader>
@@ -186,7 +201,9 @@ export const OderList = ({ data, itemsPerPage }: orderListProps) => {
                     <TableCell className="flex gap-2 items-center">
                       {order.title}
                     </TableCell>
-                    <TableCell className="w-[250px]">{order.description}</TableCell>
+                    <TableCell className="w-[250px]">
+                      {order.description}
+                    </TableCell>
                     <TableCell className="flex gap-2 items-center">
                       {/* <div className="">
                         <Image
@@ -218,21 +235,23 @@ export const OderList = ({ data, itemsPerPage }: orderListProps) => {
                       className=""
                     > */}
                     <Dialog>
-                      <DialogTrigger
-                        asChild
-                        className={cn("",
-                          activeRow == index ? "opacity-100" : "opacity-0"
-                        )}
-                      >
-                        <TableCell>
+                      <TableCell>
+                        <DialogTrigger
+                          asChild
+                          className={cn(
+                            "",
+                            activeRow == index ? "opacity-100" : "opacity-0"
+                          )}
+                        >
                           <span className="material-symbols-rounded text-lg p-2 rounded-sm hover:bg-dark/10  hover:dark:bg-white/10 cursor-pointer">
                             share
                           </span>
-                        </TableCell>
-                      </DialogTrigger>
+                        </DialogTrigger>
+                      </TableCell>
+
                       <DialogContent className="sm:max-w-md bg-white dark:bg-dark">
                         <DialogHeader>
-                          <DialogTitle>Share link</DialogTitle>
+                          <DialogTitle className="text-black dark:text-white">Share link</DialogTitle>
                           <DialogDescription>
                             Anyone who has this link will be able to join this
                             event.
@@ -295,7 +314,11 @@ export const OderList = ({ data, itemsPerPage }: orderListProps) => {
                           <Button type="button" variant="outline">
                             Cancel
                           </Button>
-                          <Button type="button" variant="default" onClick={()=>(popEventById(data,order.id))}>
+                          <Button
+                            type="button"
+                            variant="default"
+                            onClick={() => popEventById(data, order.id)}
+                          >
                             Confirm
                           </Button>
                         </PopoverClose>

@@ -1,6 +1,5 @@
 "use client";
 import { EventsLayout } from "@/layouts";
-import { RecoilRoot } from "recoil";
 
 export default function EventsPage() {
   return (

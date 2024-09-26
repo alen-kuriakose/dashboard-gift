@@ -12,11 +12,11 @@ import Image from "next/image";
 type WidgetChartProps = {
   widgetName: string;
   mainValue: string;
-  growth: string;
+  growth?: string;
   isRevRelated: boolean;
   className: string;
   fontClass: string;
-  iconClr:string
+  iconClr: string;
 };
 
 /* This code snippet is defining a React functional component named `WidgetChart` that takes in several
@@ -28,7 +28,7 @@ export function WidgetChart({
   isRevRelated,
   className,
   fontClass,
-  iconClr
+  iconClr,
 }: WidgetChartProps) {
   return (
     <div className={cn("p-7 rounded-2xl flex flex-col gap-2", className)}>
@@ -43,17 +43,29 @@ export function WidgetChart({
           {mainValue}
         </Subheading2xlSemibold>
         <div className="flex gap-1">
-          <TextXSmallRegular className={cn("", fontClass)}>
-            {parseInt(growth) > 0 ? "+" : "-"}
-            {growth + "%"}
-          </TextXSmallRegular>
-          <span>
-            {parseInt(growth) > 0 ? (
-              <Image src={uptrend} alt="Trend up" className={cn("",iconClr)} />
-            ) : (
-              <Image src={downtrend} alt="Trend down"  className={cn("",iconClr)}/>
-            )}
-          </span>
+          {growth && (
+            <TextXSmallRegular className={cn("", fontClass)}>
+              {parseInt(growth) > 0 ? "+" : "-"}
+              {growth + "%"}
+            </TextXSmallRegular>
+          )}
+          {growth && (
+            <span>
+              {parseInt(growth) > 0 ? (
+                <Image
+                  src={uptrend}
+                  alt="Trend up"
+                  className={cn("", iconClr)}
+                />
+              ) : (
+                <Image
+                  src={downtrend}
+                  alt="Trend down"
+                  className={cn("", iconClr)}
+                />
+              )}
+            </span>
+          )}
         </div>
       </div>
     </div>

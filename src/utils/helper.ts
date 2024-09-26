@@ -31,55 +31,19 @@ export const dashboardSidemenuContent = [
   {
     title: "Guests",
     icon: ShoppingBagOpen,
-    contents: [
-      {
-        title: "Text",
-      },
-      {
-        title: "Speech",
-      },
-      {
-        title: "Voice Over",
-      },
-    ],
+    
     url: "/solutions/speech",
   },
   {
     title: "Events",
     icon: FolderNotch,
-    contents: [
-      {
-        title: "Translation",
-      },
-      {
-        title: "Transliteration",
-      },
-      {
-        title: "Transcription",
-      },
-      {
-        title: "Summarization",
-      },
-      {
-        title: "Quiz ",
-      },
-      {
-        title: "Sentiment ",
-      },
-    ],
+    
     url: "https://www.tarento.com/case-studies/anuvaad-domain-specific-translation-engine-for-the-supreme-court-of-india/",
   },
   {
     title: "Gifts",
     icon: BookOpen,
-    contents: [
-      {
-        title: "Digital ",
-      },
-      {
-        title: "Enterprise ",
-      },
-    ],
+    
     url: "",
   },
 ];

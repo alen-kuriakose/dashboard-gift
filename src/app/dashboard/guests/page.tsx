@@ -1,5 +1,5 @@
 "use client";
-import { GuestPageLayout } from "@/layouts";
+import { GuestPageLayout } from "@/layouts/GuestPageLayout";
 import { RecoilRoot } from "recoil";
 
 export default function EventsPage() {
