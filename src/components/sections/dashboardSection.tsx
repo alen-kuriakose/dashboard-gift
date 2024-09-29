@@ -71,7 +71,7 @@ export function DashboardSection() {
 
         <div className="col-span-12 grid grid-cols-12 gap-7 h-full">
           <div className=" col-span-12 lg:col-span-9 h-full">
-            <TableChart />
+            {/* <TableChart /> */}
           </div>
           <div className=" col-span-12 lg:col-span-3">
             <PieChartComponent />

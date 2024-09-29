@@ -31,19 +31,19 @@ export const dashboardSidemenuContent = [
   {
     title: "Guests",
     icon: ShoppingBagOpen,
-    
+
     url: "/solutions/speech",
   },
   {
     title: "Events",
     icon: FolderNotch,
-    
+
     url: "https://www.tarento.com/case-studies/anuvaad-domain-specific-translation-engine-for-the-supreme-court-of-india/",
   },
   {
     title: "Gifts",
     icon: BookOpen,
-    
+
     url: "",
   },
 ];
@@ -86,7 +86,7 @@ export const pageSidemenuContent = [
       },
     ],
     url: "/solutions/speech",
-  }
+  },
 ];
 
 export const notificationGroupContent1 = [
@@ -236,42 +236,45 @@ export const locations: Location[] = [
   },
 ];
 
+export const invoicesHeader = ["Name", "Total Gifts", "Gift Value", "Mode"];
+export const invoiceKeys = ["name", "totalGifts", "giftValue", "mode"];
+
 export const invoices = [
-  { name: 'John Doe', totalGifts: 50,
-    giftValue:"$200",
-    mode:"Cash,Jwellery"
-   },
-    { name: 'Jane Smith', totalGifts: 14 ,
-      giftValue:"$128",
-      mode:"Cheque"
-    },
-    { name: 'Bob Johnson', totalGifts: 4,
-      giftValue:"$135",
-      mode:"NFT"
-     },
-    { name: 'Alice Brown', totalGifts: 65,
-      giftValue:"$756",
-      mode:"Cheque,Cash"
-     },{ name: 'Bob Johnson', totalGifts: 4,
-      giftValue:"$135",
-      mode:"NFT"
-     },
-    { name: 'Alice Brown', totalGifts: 65,
-      giftValue:"$756",
-      mode:"Cheque,Cash"
-     },
-     
-    { name: 'Charlie Davis', totalGifts: 28,
-      giftValue:"$149",
-      mode:"Cheque,Cash,Jwellery"
-     },{ name: 'Bob Johnson', totalGifts: 4,
-      giftValue:"$135",
-      mode:"NFT"
-     },
-    { name: 'Alice Brown', totalGifts: 65,
-      giftValue:"$756",
-      mode:"Cheque,Cash"
-     },
+  {
+    name: "John Doe",
+    totalGifts: 50,
+    giftValue: "$200",
+    mode: "Cash,Jwellery",
+  },
+  { name: "Jane Smith", totalGifts: 14, giftValue: "$128", mode: "Cheque" },
+  { name: "Bob Johnson", totalGifts: 4, giftValue: "$135", mode: "NFT" },
+  {
+    name: "Alice Brown",
+    totalGifts: 65,
+    giftValue: "$756",
+    mode: "Cheque,Cash",
+  },
+  { name: "Bob Johnson", totalGifts: 4, giftValue: "$135", mode: "NFT" },
+  {
+    name: "Alice Brown",
+    totalGifts: 65,
+    giftValue: "$756",
+    mode: "Cheque,Cash",
+  },
+
+  {
+    name: "Charlie Davis",
+    totalGifts: 28,
+    giftValue: "$149",
+    mode: "Cheque,Cash,Jwellery",
+  },
+  { name: "Bob Johnson", totalGifts: 4, giftValue: "$135", mode: "NFT" },
+  {
+    name: "Alice Brown",
+    totalGifts: 65,
+    giftValue: "$756",
+    mode: "Cheque,Cash",
+  },
 ];
 
 export const stackedBhartDataGiftProjection = [
@@ -282,7 +285,6 @@ export const stackedBhartDataGiftProjection = [
   { month: "May", invitations: 209, guestCount: 130 },
   { month: "June", invitations: 214, guestCount: 140 },
 ];
-
 
 export const orderHistory = [
   {
@@ -299,7 +301,7 @@ export const orderHistory = [
     description: "A 10K marathon to raise funds for local charities.",
     date: "2024-08-15T07:00:00",
     location: "Downtown Chicago, IL",
-    organizer: "Alen Kuriakose"
+    organizer: "Alen Kuriakose",
   },
   {
     id: "c1d2e3f4-g5h6-i7j8-k9l0-m1n2o3p4q5r6",
@@ -307,7 +309,7 @@ export const orderHistory = [
     description: "Showcasing contemporary artists from around the world.",
     date: "2024-10-10T18:00:00",
     location: "Louvre Museum, Paris",
-    organizer: "Alen Kuriakose"
+    organizer: "Alen Kuriakose",
   },
   {
     id: "d1e2f3g4-h5i6-j7k8-l9m0-n1o2p3q4r5s6",
@@ -315,7 +317,7 @@ export const orderHistory = [
     description: "A gathering of the best food trucks in the city.",
     date: "2024-07-05T11:00:00",
     location: "Los Angeles, CA",
-    organizer: "Alen Kuriakose"
+    organizer: "Alen Kuriakose",
   },
   {
     id: "e1f2g3h4-i5j6-k7l8-m9n0-o1p2q3r4s5t6",
@@ -323,7 +325,7 @@ export const orderHistory = [
     description: "A showcase of the latest innovations in technology.",
     date: "2024-09-18T09:00:00",
     location: "Silicon Valley, CA",
-    organizer: "Alen Kuriakose"
+    organizer: "Alen Kuriakose",
   },
   {
     id: "f1g2h3i4-j5k6-l7m8-n9o0-p1q2r3s4t5u6",
@@ -331,7 +333,7 @@ export const orderHistory = [
     description: "Screenings of indie films from emerging directors.",
     date: "2024-11-03T19:00:00",
     location: "Cannes, France",
-    organizer: "Alen Kuriakose"
+    organizer: "Alen Kuriakose",
   },
   {
     id: "g1h2i3j4-k5l6-m7n8-o9p0-q1r2s3t4u5v6",
@@ -339,7 +341,7 @@ export const orderHistory = [
     description: "Annual book fair with authors, signings, and readings.",
     date: "2024-10-20T10:00:00",
     location: "London, UK",
-    organizer: "Alen Kuriakose"
+    organizer: "Alen Kuriakose",
   },
   {
     id: "h1i2j3k4-l5m6-n7o8-p9q0-r1s2t3u4v5w6",
@@ -347,7 +349,7 @@ export const orderHistory = [
     description: "A live performance by popular rock bands.",
     date: "2024-07-25T20:00:00",
     location: "Madison Square Garden, NY",
-    organizer: "Alen Kuriakose"
+    organizer: "Alen Kuriakose",
   },
   {
     id: "i1j2k3l4-m5n6-o7p8-q9r0-s1t2u3v4w5x6",
@@ -355,7 +357,7 @@ export const orderHistory = [
     description: "Networking event for entrepreneurs and startups.",
     date: "2024-09-30T18:00:00",
     location: "San Francisco, CA",
-    organizer: "Alen Kuriakose"
+    organizer: "Alen Kuriakose",
   },
   {
     id: "j1k2l3m4-n5o6-p7q8-r9s0-t1u2v3w4x5y6",
@@ -363,7 +365,7 @@ export const orderHistory = [
     description: "A weekend retreat for relaxation and mindfulness.",
     date: "2024-08-12T08:00:00",
     location: "Bali, Indonesia",
-    organizer: "Alen Kuriakose"
+    organizer: "Alen Kuriakose",
   },
   {
     id: "k1l2m3n4-o5p6-q7r8-s9t0-u1v2w3x4y5z6",
@@ -371,7 +373,7 @@ export const orderHistory = [
     description: "Sample wines from vineyards around the world.",
     date: "2024-11-22T17:00:00",
     location: "Napa Valley, CA",
-    organizer: "Alen Kuriakose"
+    organizer: "Alen Kuriakose",
   },
   {
     id: "l1m2n3o4-p5q6-r7s8-t9u0-v1w2x3y4z5a6",
@@ -379,7 +381,7 @@ export const orderHistory = [
     description: "Learn advanced photography techniques from experts.",
     date: "2024-07-15T09:00:00",
     location: "Sydney, Australia",
-    organizer: "Alen Kuriakose"
+    organizer: "Alen Kuriakose",
   },
   {
     id: "m1n2o3p4-q5r6-s7t8-u9v0-w1x2y3z4a5b6",
@@ -387,7 +389,7 @@ export const orderHistory = [
     description: "A display of beautiful gardens and landscaping ideas.",
     date: "2024-06-10T10:00:00",
     location: "Royal Botanic Gardens, London",
-    organizer: "Alen Kuriakose"
+    organizer: "Alen Kuriakose",
   },
   {
     id: "n1o2p3q4-r5s6-t7u8-v9w0-x1y2z3a4b5c6",
@@ -395,15 +397,16 @@ export const orderHistory = [
     description: "Learn to cook gourmet meals with top chefs.",
     date: "2024-09-05T14:00:00",
     location: "Rome, Italy",
-    organizer: "Alen Kuriakose"
+    organizer: "Alen Kuriakose",
   },
   {
     id: "o1p2q3r4-s5t6-u7v8-w9x0-y1z2a3b4c5d6",
     title: "Sustainability Conference",
-    description: "A conference on environmental sustainability and green energy.",
+    description:
+      "A conference on environmental sustainability and green energy.",
     date: "2024-10-02T09:00:00",
     location: "Berlin, Germany",
-    organizer: "Alen Kuriakose"
+    organizer: "Alen Kuriakose",
   },
   {
     id: "p1q2r3s4-t5u6-v7w8-x9y0-z1a2b3c4d5e6",
@@ -411,16 +414,14 @@ export const orderHistory = [
     description: "A guided tour of ancient historical landmarks.",
     date: "2024-12-12T08:00:00",
     location: "Athens, Greece",
-    organizer: "Alen Kuriakose"
-  }
+    organizer: "Alen Kuriakose",
+  },
 ];
-
-
 
 export const status = {
   "In Progress": "inprogress",
-  'Approved': "approved",
-  "Rejected": "rejected",
-  "Pending": "pending",
-  "Complete": "complete",
-}as const;
+  Approved: "approved",
+  Rejected: "rejected",
+  Pending: "pending",
+  Complete: "complete",
+} as const;

@@ -64,8 +64,9 @@ export const OderList = ({ data, itemsPerPage }: orderListProps) => {
     setOrderListData(data);
   }, [data]);
   useEffect(()=>{
-    setOrderListData(data)
+    // setOrderListData(orderListData)
     console.log("data modified")
+    console.log(data)
     sorted&&setSorted(false)
   },[sorted])
   
@@ -98,6 +99,7 @@ export const OderList = ({ data, itemsPerPage }: orderListProps) => {
       }
     });
     setSorted(true)
+    setOrderListData(data)
   }
 
   function searchEvents(events: any, searchString: any) {
@@ -124,9 +126,9 @@ export const OderList = ({ data, itemsPerPage }: orderListProps) => {
       <CardHeader className="p-0 bg-[#F7F9FB] dark:bg-[#FFFFFF0D]/5 rounded-lg ">
         <div className="flex justify-between w-full p-2">
           <div className="flex gap-2  w-auto">
-            <div className="p-1">
+            {/* <div className="p-1">
               <Image src={filter} alt="filter" className="dark:invert" />
-            </div>
+            </div> */}
             <Popover>
               <PopoverTrigger>
                 <div className="p-1">
@@ -155,14 +157,7 @@ export const OderList = ({ data, itemsPerPage }: orderListProps) => {
                     Location
                   </div>
                 </PopoverClose>
-                <PopoverClose className="w-full">
-                  <div
-                    className="w-100 p-2 border text-sm text-center rounded-md"
-                    onClick={() => sortEvents(data, "event")}
-                  >
-                    Guest Count
-                  </div>
-                </PopoverClose>
+                
               </PopoverContent>
             </Popover>
           </div>

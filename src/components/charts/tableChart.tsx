@@ -9,9 +9,14 @@ import {
 import { invoices } from "@/utils/helper";
 import { CardHeader, CardTitle } from "../ui/card";
 
+type TableChartProps={
+  headerNames:Array<string>,
+  datas:Array<any>,
+  keys:Array<string>
+}
 
 
-export function TableChart() {
+export function TableChart({datas,headerNames,keys}:TableChartProps) {
   return (
     <div className="bg-primary-light p-6 rounded-2xl dark:bg-white/15 shadow-none h-full">
       <CardHeader className=" px-0 pt-1 font-inter font-semibold text-sm">
@@ -27,12 +32,14 @@ export function TableChart() {
           </TableRow>
         </TableHeader>
         <TableBody className="text-dark dark:text-white text-xs">
-          {invoices.map((invoice) => (  
-            <TableRow key={invoice.name} className="border-0">
-              <TableCell className="font-medium">{invoice.name}</TableCell>
-              <TableCell>{invoice.totalGifts}</TableCell>
-              <TableCell>{invoice.giftValue}</TableCell>
-              <TableCell className="">{invoice.mode}</TableCell>
+          {datas.map((data,index) => (  
+            <TableRow key={index} className="border-0">
+              {keys.map((dataKey)=>{
+                console.log(data[dataKey])
+                return(
+                <TableCell>{data[dataKey]}</TableCell>
+                )
+              })}             
             </TableRow>
           ))}
         </TableBody>
