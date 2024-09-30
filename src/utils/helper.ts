@@ -21,7 +21,6 @@ import Contact3 from "@/assets/images/Male06.png";
 import Contact4 from "@/assets/images/Female08.png";
 import Contact5 from "@/assets/images/Female09.png";
 import Contact6 from "@/assets/images/3D03.png";
-
 export const dashboardSidemenuContent = [
   {
     title: "Dashboard",
@@ -52,57 +51,31 @@ export const pageSidemenuContent = [
   {
     title: "User Profile",
     icon: IdentificationCard,
-    contents: [
-      {
-        title: "Overview",
-      },
-      {
-        title: "Projects",
-      },
-      {
-        title: "Campaigns",
-      },
-      {
-        title: "Documents",
-      },
-      {
-        title: "Followers",
-      },
-    ],
+    
     url: "/solutions/digitization",
   },
   {
     title: "Account",
     icon: IdentificationBadge,
-    contents: [
-      {
-        title: "Text",
-      },
-      {
-        title: "Speech",
-      },
-      {
-        title: "Voice ",
-      },
-    ],
+    
     url: "/solutions/speech",
   },
 ];
 
 export const notificationGroupContent1 = [
   {
-    title: "You have a bug that needs to be fixed.",
+    title: "New event created",
     timeStamp: "Just now",
     icon: Bug,
   },
-  { title: "New user registered", timeStamp: "59 minutes ago", icon: User },
+  { title: "New guest joined", timeStamp: "59 minutes ago", icon: User },
   {
-    title: "You have a bug that needs to be fixed.",
+    title: "New gift recieved",
     timeStamp: "12 hours ago",
     icon: Bug,
   },
   {
-    title: "Andi Lane subscribed to you",
+    title: "You sent a gift",
     timeStamp: "Today, 11:59 AM",
     icon: Broadcast,
   },

@@ -235,7 +235,7 @@ export const OderList = ({ data, itemsPerPage }: orderListProps) => {
                           asChild
                           className={cn(
                             "",
-                            activeRow == index ? "opacity-100" : "opacity-0"
+                           "opacity-100" 
                           )}
                         >
                           <span className="material-symbols-rounded text-lg p-2 rounded-sm hover:bg-dark/10  hover:dark:bg-white/10 cursor-pointer">
@@ -294,7 +294,7 @@ export const OderList = ({ data, itemsPerPage }: orderListProps) => {
                       <PopoverTrigger asChild>
                         <TableCell
                           className={cn(
-                            activeRow == index ? "opacity-100" : "opacity-0"
+                           "opacity-100" 
                           )}
                         >
                           <div className="">

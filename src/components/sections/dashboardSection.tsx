@@ -6,7 +6,7 @@
  * `PieChartComponent` arranged in a grid layout within a `div` element. The component also includes a
  * `TextSmallSemibold` component for displaying the text "eCommerce".
  */
-import { stackedBhartDataGiftProjection, WidgetChartData } from "@/utils/helper";
+import { invoiceKeys, invoices, invoicesHeader, stackedBhartDataGiftProjection, WidgetChartData } from "@/utils/helper";
 import {
   AreaChartComponent,
   PieChartComponent,
@@ -71,7 +71,7 @@ export function DashboardSection() {
 
         <div className="col-span-12 grid grid-cols-12 gap-7 h-full">
           <div className=" col-span-12 lg:col-span-9 h-full">
-            {/* <TableChart /> */}
+            <TableChart headerNames={invoicesHeader} datas={invoices} keys={invoiceKeys} />
           </div>
           <div className=" col-span-12 lg:col-span-3">
             <PieChartComponent />

@@ -1,5 +1,5 @@
-import {GuestPageLayout} from "./GuestPageLayout";
-
+export {GuestPageLayout} from "./GuestPageLayout";
+export { SignUpPageLayout } from "./SignUpLayout";
 export { GiftsPageLayout } from "./GiftsPageLayout";
 export { EventsLayout } from "./EventsLayout";
 export { DashboardPageLayout } from "./DashboardPageLayout";

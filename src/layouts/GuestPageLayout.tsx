@@ -1,5 +1,6 @@
+"use client";
 import React, { useEffect, useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -17,18 +18,25 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { EnableNotificationPanel } from "@/states/GlobalState";
 import { Label } from "@/components/ui/label";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Navbar, NotificationPanel } from "@/components";
-import { GiftsSection } from "@/components/sections";
 import { TextSmallSemibold } from "@/components/typography";
-import {
-  EnableNotificationPanel,
-  ActiveIndexServicesCard,
-} from "@/states/GlobalState";
 import { usePathname } from "next/navigation";
 import { useRecoilValue } from "recoil";
 
-const dummyGuests = [
+// Define the Guest type
+type Guest = {
+  id: number;
+  name: string;
+  email: string;
+  phone: string;
+  totalContributions: number;
+  eventsAttended: string[];
+};
+
+const dummyGuests: Guest[] = [
   {
     id: 1,
     name: "John Doe",
@@ -48,21 +56,78 @@ const dummyGuests = [
 ];
 
 export function GuestPageLayout() {
-  const [guests, setGuests] = useState(dummyGuests);
-  const [newGuest, setNewGuest] = useState({ name: "", email: "", phone: "" });
+  const isNotificationPanelActive = useRecoilValue(EnableNotificationPanel);
+
+  const [guests, setGuests] = useState<Guest[]>(dummyGuests);
+  const [newGuest, setNewGuest] = useState<
+    Omit<Guest, "id" | "totalContributions" | "eventsAttended">
+  >({ name: "", email: "", phone: "" });
   const [searchTerm, setSearchTerm] = useState("");
+  const [editingGuest, setEditingGuest] = useState<Guest | null>(null);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [breadcrumbs, setBreadcrumbs] = useState<any>();
+  const pathname = usePathname();
 
   const handleAddGuest = () => {
-    setGuests([
-      ...guests,
-      {
+    try {
+      if (!newGuest.name || !newGuest.email || !newGuest.phone) {
+        throw new Error("Please fill in all fields");
+      }
+      const guestToAdd: Guest = {
         ...newGuest,
         id: guests.length + 1,
         totalContributions: 0,
         eventsAttended: [],
-      },
-    ]);
-    setNewGuest({ name: "", email: "", phone: "" });
+      };
+      setGuests([...guests, guestToAdd]);
+      setNewGuest({ name: "", email: "", phone: "" });
+      setError(null);
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : "An error occurred while adding the guest"
+      );
+    }
+  };
+
+  const handleEditGuest = (guest: Guest) => {
+    setEditingGuest(guest);
+    setIsEditDialogOpen(true);
+    setError(null);
+  };
+
+  const handleUpdateGuest = () => {
+    try {
+      if (!editingGuest) {
+        throw new Error("No guest selected for editing");
+      }
+      if (!editingGuest.name || !editingGuest.email || !editingGuest.phone) {
+        throw new Error("Please fill in all fields");
+      }
+      setGuests(
+        guests.map((g) => (g.id === editingGuest.id ? editingGuest : g))
+      );
+      setIsEditDialogOpen(false);
+      setEditingGuest(null);
+      setError(null);
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : "An error occurred while updating the guest"
+      );
+    }
+  };
+
+  const handleDeleteGuest = (id: number) => {
+    try {
+      setGuests(guests.filter((guest) => guest.id !== id));
+      setError(null);
+    } catch (err) {
+      setError("An error occurred while deleting the guest");
+    }
   };
 
   const filteredGuests = guests.filter(
@@ -71,18 +136,6 @@ export function GuestPageLayout() {
       guest.email.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const isNotificationPanelActive = useRecoilValue(EnableNotificationPanel);
-  const pathname = usePathname();
-  const activeCardIndex = useRecoilValue(ActiveIndexServicesCard);
-  const [breadcrumbs, setBreadcrumbs] = useState<any>();
-  /**
-   * The function `generateBreadcrumbs` creates breadcrumb navigation based on the current pathname in
-   * a TypeScript React application.
-   * @returns An array of breadcrumb objects is being returned. Each breadcrumb object contains a
-   * `href` property with the path segment up to that point and a `label` property with the
-   * corresponding segment label. Additionally, a breadcrumb object is inserted at index 1 with the
-   * `href` set to `/` and the `label` set to `activeCardIndex`.
-   */
   const generateBreadcrumbs = () => {
     const pathSegments = pathname
       .split("/")
@@ -106,12 +159,16 @@ export function GuestPageLayout() {
         <div className="p-7">
           <div className="px-2 py-1 mb-5 flex justify-between items-center">
             <TextSmallSemibold className="text-dark dark:text-white">
-              Guests
+              Gifts
             </TextSmallSemibold>
           </div>
-
           <Card className="w-full border-0 shadow-none">
             <CardContent>
+              {error && (
+                <Alert variant="destructive" className="mb-4">
+                  <AlertDescription>{error}</AlertDescription>
+                </Alert>
+              )}
               <div className="flex justify-between mb-4">
                 <Input
                   className="w-1/3"
@@ -125,11 +182,16 @@ export function GuestPageLayout() {
                   </DialogTrigger>
                   <DialogContent className="bg-white dark:bg-dark">
                     <DialogHeader>
-                      <DialogTitle className="text-dark dark:text-white">Add New Guest</DialogTitle>
+                      <DialogTitle className="text-dark dark:text-white">
+                        Add New Guest
+                      </DialogTitle>
                     </DialogHeader>
                     <div className="grid gap-4 py-4">
                       <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="name" className="text-right w-fit  text-dark dark:text-white">
+                        <Label
+                          htmlFor="name"
+                          className="text-right w-fit text-dark dark:text-white"
+                        >
                           Name
                         </Label>
                         <Input
@@ -142,7 +204,10 @@ export function GuestPageLayout() {
                         />
                       </div>
                       <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="email" className="text-right w-fit  text-dark dark:text-white">
+                        <Label
+                          htmlFor="email"
+                          className="text-right w-fit text-dark dark:text-white"
+                        >
                           Email
                         </Label>
                         <Input
@@ -155,7 +220,10 @@ export function GuestPageLayout() {
                         />
                       </div>
                       <div className="grid grid-cols-4 items-center gap-4">
-                        <Label htmlFor="phone" className="text-right w-fit  text-dark dark:text-white">
+                        <Label
+                          htmlFor="phone"
+                          className="text-right w-fit text-dark dark:text-white"
+                        >
                           Phone
                         </Label>
                         <Input
@@ -192,16 +260,97 @@ export function GuestPageLayout() {
                       <TableCell>${guest.totalContributions}</TableCell>
                       <TableCell>{guest.eventsAttended.join(", ")}</TableCell>
                       <TableCell>
-                        <Button variant="outline" className="mr-2 w-20">
+                        <Button
+                          variant="outline"
+                          className="mr-2 w-20"
+                          onClick={() => handleEditGuest(guest)}
+                        >
                           Edit
                         </Button>
-                        <Button variant="default">Delete</Button>
+                        <Button
+                          variant="default"
+                          onClick={() => handleDeleteGuest(guest.id)}
+                        >
+                          Delete
+                        </Button>
                       </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
               </Table>
             </CardContent>
+
+            <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+              <DialogContent className="bg-white dark:bg-dark">
+                <DialogHeader>
+                  <DialogTitle className="text-dark dark:text-white">
+                    Edit Guest
+                  </DialogTitle>
+                </DialogHeader>
+                {editingGuest && (
+                  <div className="grid gap-4 py-4">
+                    <div className="grid grid-cols-4 items-center gap-4">
+                      <Label
+                        htmlFor="edit-name"
+                        className="text-right w-fit text-dark dark:text-white"
+                      >
+                        Name
+                      </Label>
+                      <Input
+                        id="edit-name"
+                        value={editingGuest.name}
+                        onChange={(e) =>
+                          setEditingGuest({
+                            ...editingGuest,
+                            name: e.target.value,
+                          })
+                        }
+                        className="col-span-3 text-dark dark:text-white"
+                      />
+                    </div>
+                    <div className="grid grid-cols-4 items-center gap-4">
+                      <Label
+                        htmlFor="edit-email"
+                        className="text-right w-fit text-dark dark:text-white"
+                      >
+                        Email
+                      </Label>
+                      <Input
+                        id="edit-email"
+                        value={editingGuest.email}
+                        onChange={(e) =>
+                          setEditingGuest({
+                            ...editingGuest,
+                            email: e.target.value,
+                          })
+                        }
+                        className="col-span-3 text-dark dark:text-white"
+                      />
+                    </div>
+                    <div className="grid grid-cols-4 items-center gap-4">
+                      <Label
+                        htmlFor="edit-phone"
+                        className="text-right w-fit text-dark dark:text-white"
+                      >
+                        Phone
+                      </Label>
+                      <Input
+                        id="edit-phone"
+                        value={editingGuest.phone}
+                        onChange={(e) =>
+                          setEditingGuest({
+                            ...editingGuest,
+                            phone: e.target.value,
+                          })
+                        }
+                        className="col-span-3 text-dark dark:text-white"
+                      />
+                    </div>
+                  </div>
+                )}
+                <Button onClick={handleUpdateGuest}>Update Guest</Button>
+              </DialogContent>
+            </Dialog>
           </Card>
         </div>
       </div>
